@@ -1,10 +1,11 @@
 $(document).ready(()=>{
-    getCsvArchive((data)=>{
+    loadCsvArchive((data)=>{
         $("#loading").empty().append(data)
+        censoArray = parseCsvToarray(data);
     })
 })
 
-const getCsvArchive = (calback)=>{
+const loadCsvArchive = (calback)=>{
     $.ajax({
         type:"GET",
         url:"mapa.csv",
@@ -45,4 +46,15 @@ class censo {
     getPopulacaoDobro(){
         return this.populacao*2
     }
+}
+
+function parseCsvToarray(data) {
+    let allLines = data.split(/\r\n|\n/)
+    mapa = []
+    allLines.shift();//remove header do csv
+    allLines.forEach(line => {
+        csvKey = line.split(";")
+        mapa.push(new censo(csvKey[0],csvKey[1]))
+    });
+    return mapa
 }
