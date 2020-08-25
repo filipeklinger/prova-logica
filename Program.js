@@ -1,7 +1,9 @@
 $(document).ready(()=>{
     loadCsvArchive((data)=>{
+        $("#desordenado").empty().append(data)
         censoArray = parseCsvToarray(data);
-        gravaNovoArquivo(censoArray)
+        censoOrdenado = bubleSort(censoArray);
+        gravaNovoArquivo(censoOrdenado)
     })
 })
 
@@ -64,8 +66,8 @@ function gravaNovoArquivo(mapa) {
     mapa.forEach(censo=>{
         novoCsv += `${censo.getLocal()};${censo.getPopulacaoDobro()} \n`
     })
-    $("#loading").empty().append(novoCsv)
+    $("#ordenado").empty().append(novoCsv)
 
-    let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
-    saveAs(blob,"mapaPopulacaoDuplicada.csv")
+    // let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
+    // saveAs(blob,"mapaPopulacaoDuplicada.csv")
 }
