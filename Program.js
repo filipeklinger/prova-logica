@@ -1,7 +1,7 @@
 $(document).ready(()=>{
     loadCsvArchive((data)=>{
-        $("#loading").empty().append(data)
         censoArray = parseCsvToarray(data);
+        gravaNovoArquivo(censoArray)
     })
 })
 
@@ -44,7 +44,7 @@ class censo {
     }
 
     getPopulacaoDobro(){
-        return this.populacao*2
+        return (this.Populacao*2)
     }
 }
 
@@ -57,4 +57,15 @@ function parseCsvToarray(data) {
         mapa.push(new censo(csvKey[0],csvKey[1]))
     });
     return mapa
+}
+
+function gravaNovoArquivo(mapa) {
+    let novoCsv = '"Local"; "População no último censo"\n'
+    mapa.forEach(censo=>{
+        novoCsv += `${censo.getLocal()};${censo.getPopulacaoDobro()} \n`
+    })
+    $("#loading").empty().append(novoCsv)
+
+    let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
+    saveAs(blob,"mapaPopulacaoDuplicada.csv")
 }
