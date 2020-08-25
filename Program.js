@@ -46,7 +46,6 @@ function parseCsvToarray(data) {
 
 async function buscaEnderecoByCep(cepsArray) {
     $('#loadind_ends').empty().append("Carregando aguarde...")
-    //buscando de forma sincrona para imprimir em arquivo apos o ultimo item
     for(i in cepsArray){
         await acessaApiExterna(cepsArray,i)
     }
@@ -57,7 +56,6 @@ async function buscaEnderecoByCep(cepsArray) {
 async function acessaApiExterna(cepsArray,item) {
     cepObj = cepsArray[item]
     cepNumber = cepObj.CEP
-    $('#loading_ends').append(`<span id="loadind_${cepNumber}">Carregando endereço do cep: ${cepNumber}</span><br/>`)
     url = `https://viacep.com.br/ws/${cepNumber}/json/?;`
     try{
         await $.ajax({
@@ -75,7 +73,7 @@ async function acessaApiExterna(cepsArray,item) {
             }
         });
     }catch(e){
-
+        console.log(e)
     }
     
 }
