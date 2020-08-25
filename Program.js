@@ -54,7 +54,7 @@ function parseCsvToarray(data) {
     allLines.shift();//remove header do csv
     allLines.forEach(line => {
         csvKey = line.split(";")
-        mapa.push(new censo(csvKey[0],csvKey[1]))
+        if(csvKey[0]) mapa.push(new censo(csvKey[0],csvKey[1]))
     });
     return mapa
 }
