@@ -45,10 +45,12 @@ function parseCsvToarray(data) {
 }
 
 async function buscaEnderecoByCep(cepsArray) {
+    $('#loadind_ends').empty().append("Carregando aguarde...")
     //buscando de forma sincrona para imprimir em arquivo apos o ultimo item
     for(i in cepsArray){
         await acessaApiExterna(cepsArray,i)
     }
+    $('#loadind_ends').empty().append("Busca concluida")
     gravaNovoArquivo(cepsArray);
 }
 
@@ -103,7 +105,7 @@ function gravaNovoArquivo(cepsArray) {
         line = `${endereco.CEP};${endereco.Logradouro};${endereco.Complemento};${endereco.Bairro};${endereco.Localidade};${endereco.UF};${endereco.Unidade};${endereco.IBGE};${endereco.GIA}\n`
         novoCsv+= line
     })
-    $("#loadind_ends").empty().append(novoCsv);
+    $("#ends").empty().append(novoCsv);
         
     let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
     saveAs(blob,"CepsComEndereco.csv") 
