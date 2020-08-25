@@ -1,92 +1,51 @@
 $(document).ready(()=>{
     loadCsvArchive((data)=>{
-        $("#desordenado").empty().append(data)
-        censoArray = parseCsvToarray(data);
-        censoOrdenado = bubleSort(censoArray);
-        gravaNovoArquivo(censoOrdenado)
+        cepsArray = parseCsvToarray(data);
+        gravaNovoArquivo(cepsArray)
     })
 })
 
 const loadCsvArchive = (calback)=>{
     $.ajax({
         type:"GET",
-        url:"mapa.csv",
+        url:"CEPs.csv",
         dataType: "text",
         success: (data)=> calback(data)
     })
 }
-
-class censo {
-    Local = "";
-    Populacao = 0;
-
-    constructor(localName,populacao) {
-        this.setLocal(localName)
-        this.setPopulacao(populacao)
+class endereco{
+    CEP;Logradouro;Complemento;Bairro;Localidade;UF;Unidade;IBGE;GIA
+    constructor(cep){
+        this.setCep(cep)
     }
 
-    setLocal(local){
-        this.Local = local? local : "Não informado";
-    }
-
-    setPopulacao(populacao){
+    setCep(cep){
         try {
-            populacao = parseInt(populacao)
-            this.Populacao = isNaN(populacao)? 0 : populacao
+            this.CEP = cep
         } catch (e) {
-            this.Populacao = 0
+            this.CEP = 0
         }
-    }
-
-    getLocal() {
-        return this.Local
-    }
-    getPopulacao() {
-        return this.Populacao
-    }
-
-    getPopulacaoDobro(){
-        return (this.Populacao*2)
     }
 }
 
 function parseCsvToarray(data) {
     let allLines = data.split(/\r\n|\n/)
-    mapa = []
+    ceps = []
     allLines.shift();//remove header do csv
     allLines.forEach(line => {
         csvKey = line.split(";")
-        if(csvKey[0]) mapa.push(new censo(csvKey[0],csvKey[1]))
+        ceps.push(new endereco(csvKey[0]))
     });
-    return mapa
+    return ceps
 }
 
-function bubleSort(censoArray) {
-    const compare = (censo1,censo2)=>(censo1.getPopulacao() > censo2.getPopulacao())? true : false
-    let tam = censoArray.length;
-    let trocado;
-    do{
-        trocado = false
-        for (let i = 0; i < tam-1; i++) {
-            if(compare(censoArray[i],censoArray[i+1])){
-                let itemAtual = censoArray[i]
-                censoArray[i] = censoArray[i+1]
-                censoArray[i+1] = itemAtual
-                trocado = true;
-            }
-            
-        }
-    }while(trocado)//realiza a operacao enquanto nao passar ao menos 1 vez pelo array sem trocas
-    return censoArray;
-}
 
-function gravaNovoArquivo(mapa) {
-    let novoCsv = `"Local"; "Populacao no ultimo censo"\n`
-    mapa.forEach(censo=>{
-        novoCsv += `${censo.getLocal()};${censo.getPopulacaoDobro()} \n`
+function gravaNovoArquivo(cepsArray) {
+    let novoCsv = `CEP;Logradouro;Complemento;Bairro;Localidade;UF;Unidade;IBGE;GIA\n`
+    cepsArray.forEach((endereco)=>{
+        novoCsv += `${endereco.CEP}`
     })
-    $("#ordenado").empty().append(novoCsv)
-
-    let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
-    saveAs(blob,"mapaPopulacaoOrdenado.csv")
+    $("#loading").empty().append(novoCsv)
+    // let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
+    // saveAs(blob,"mapaPopulacaoOrdenado.csv")
 }
