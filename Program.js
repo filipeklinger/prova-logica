@@ -45,7 +45,7 @@ function parseCsvToarray(data) {
 }
 
 async function buscaEnderecoByCep(cepsArray) {
-    //busca o endereco atual, apos o done busca endereco do proximo cep ate final do array
+    //buscando de forma sincrona para imprimir em arquivo apos o ultimo item
     for(i in cepsArray){
         await acessaApiExterna(cepsArray,i)
     }
@@ -99,19 +99,12 @@ function parseEnderecoJson(json) {
 
 function gravaNovoArquivo(cepsArray) {
     let novoCsv = `CEP;Logradouro;Complemento;Bairro;Localidade;UF;Unidade;IBGE;GIA\n`
-    //verificando se concluimos todos os itens
-    // let enderecosCompletos = cepsArray.reduce((acumulador,elemento)=>
-    //     acumulador && elemento.complete
-    // ,true)
-    // console.log(enderecosCompletos)
     cepsArray.forEach((endereco)=>{
         line = `${endereco.CEP};${endereco.Logradouro};${endereco.Complemento};${endereco.Bairro};${endereco.Localidade};${endereco.UF};${endereco.Unidade};${endereco.IBGE};${endereco.GIA}\n`
         novoCsv+= line
     })
     $("#loadind_ends").empty().append(novoCsv);
-    
-    // if(enderecosCompletos){
-    //     let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
-    //     saveAs(blob,"CepsComEndereco.csv") 
-    // }
+        
+    let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
+    saveAs(blob,"CepsComEndereco.csv") 
 }
