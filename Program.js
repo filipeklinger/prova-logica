@@ -14,7 +14,7 @@ const loadCsvArchive = (calback)=>{
     })
 }
 class endereco{
-    CEP;Logradouro;Complemento;Bairro;Localidade;UF;Unidade;IBGE;GIA;complete=false;
+    CEP;Logradouro='';Complemento='';Bairro='';Localidade='';UF='';Unidade='';IBGE='';GIA='';complete=false;
     constructor(cep){
         this.setCep(cep)
     }
