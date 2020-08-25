@@ -45,3 +45,14 @@ O que avaliamos:
 
 Fique a vontade para nos procurar, o RH vai mandar o contato para dúvidas
 Nos diga o que achou do teste
+
+## Execução
+
+1. Copiar código fonte para um servidor WEB (utilizado apache para criação)
+2. Acessar o arquivo `index.html` de cada pasta com a tarefa solicitada
+
+## Considerações
+
+- Optei pela linguagem Javascript pois já a utilizo no meu ambiente atual
+
+- Criei cada nova "Feature" em uma nova branch do repositório depois um pull request para o master
