@@ -60,7 +60,7 @@ function parseCsvToarray(data) {
 }
 
 function gravaNovoArquivo(mapa) {
-    let novoCsv = '"Local"; "População no último censo"\n'
+    let novoCsv = `"Local"; "Populacao no ultimo censo"\n`
     mapa.forEach(censo=>{
         novoCsv += `${censo.getLocal()};${censo.getPopulacaoDobro()} \n`
     })
