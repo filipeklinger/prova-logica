@@ -87,6 +87,6 @@ function gravaNovoArquivo(mapa) {
     })
     $("#ordenado").empty().append(novoCsv)
 
-    // let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
-    // saveAs(blob,"mapaPopulacaoDuplicada.csv")
+    let blob = new Blob([novoCsv],{type: "text/plain;charset=utf=8"});
+    saveAs(blob,"mapaPopulacaoOrdenado.csv")
 }
